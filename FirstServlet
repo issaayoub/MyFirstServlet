@@ -1,0 +1,30 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.*;
+
+@SuppressWarnings("serial")
+public class FirstServlet extends HttpServlet {
+	
+	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		resp.setContentType("text/plain");
+		resp.getWriter().println("this is a doGet method");
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		InputStream is = req.getInputStream();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+		
+		StringBuilder sb = new StringBuilder();
+		String line;
+		while((line = reader.readLine()) != null) {
+			sb.append(line);
+		}
+		String toSend = sb.toString() + " This is from issa server";
+		resp.getWriter().println(toSend);
+	}
+}
